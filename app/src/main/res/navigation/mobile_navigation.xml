@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/memberFragment">
+
+    <fragment
+        android:id="@+id/memberFragment"
+        android:name="com.jotangi.greenShop.member.MemberFragment"
+        android:label="fragment_member"
+        tools:layout="@layout/fragment_member" >
+        <action
+            android:id="@+id/action_memberFragment_to_homeMainFragment"
+            app:destination="@id/homeMainFragment" />
+        <action
+            android:id="@+id/action_memberFragment_to_memberLoginFragment"
+            app:destination="@id/memberLoginFragment" />
+        <action
+            android:id="@+id/action_memberFragment_to_accountCustomerFragment"
+            app:destination="@id/accountCustomerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeMainFragment"
+        android:name="com.jotangi.greenShop.home.HomeMainFragment"
+        android:label="fragment_home_main"
+        tools:layout="@layout/fragment_home_main" />
+    <fragment
+        android:id="@+id/memberLoginFragment"
+        android:name="com.jotangi.greenShop.member.MemberLoginFragment"
+        android:label="fragment_member_login"
+        tools:layout="@layout/fragment_member_login" />
+    <fragment
+        android:id="@+id/accountCustomerFragment"
+        android:name="com.jotangi.greenShop.member.AccountCustomerFragment"
+        android:label="fragment_account_customer"
+        tools:layout="@layout/fragment_account_customer" />
+</navigation>

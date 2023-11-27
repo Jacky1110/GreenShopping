@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">GreenShopping</string>
+
+
+    <!--  bottomNavigationView  -->
+    <string name="main_func_home">首頁</string>
+    <string name="main_point_start">購物商城</string>
+    <string name="main_business">商家據點</string>
+    <string name="main_member">會員中心</string>
+
+    <string name="mobile_number">手機號碼</string>
+    <string name="id_input_hint_title">請輸入您的手機號碼</string>
+    <string name="password">密碼</string>
+    <string name="password_hint">請輸入您的密碼</string>
+    <string name="forget_password"><u>忘記密碼?</u></string>
+    <string name="user_rule"><u>使用者條款與須知</u></string>
+    <string name="login">登入</string>
+    <string name="logout">登出</string>
+    <string name="register">註冊</string>
+    <string name="account_rule">常見問題</string>
+    <string name="account_listitem_record">我的訂單</string>
+    <string name="account_listitem_packer">我的票券</string>
+    <string name="account_listitem_qa">常見問題</string>
+    <string name="account_listitem_rule">協議及聲明</string>
+    <string name="account_listitem_cs">聯絡客服</string>
+    <string name="account_listitem_del">刪除帳號</string>
+    <string name="service_type">服務類型</string>
+
+    <string name="welcome_member">Hi~ %s</string>
+    <string name="welcome">Hi~ 歡迎回來</string>
+    <string name="email_customer">: @208pztjk</string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
