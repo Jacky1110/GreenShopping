@@ -24,7 +24,11 @@
         android:id="@+id/homeMainFragment"
         android:name="com.jotangi.greenShop.home.HomeMainFragment"
         android:label="fragment_home_main"
-        tools:layout="@layout/fragment_home_main" />
+        tools:layout="@layout/fragment_home_main" >
+        <action
+            android:id="@+id/action_homeMainFragment_to_dynamicTabFragment"
+            app:destination="@id/dynamicTabFragment" />
+    </fragment>
     <fragment
         android:id="@+id/memberLoginFragment"
         android:name="com.jotangi.greenShop.member.MemberLoginFragment"
@@ -35,4 +39,9 @@
         android:name="com.jotangi.greenShop.member.AccountCustomerFragment"
         android:label="fragment_account_customer"
         tools:layout="@layout/fragment_account_customer" />
+    <fragment
+        android:id="@+id/dynamicTabFragment"
+        android:name="com.jotangi.greenShop.shop.DynamicTabFragment"
+        android:label="DynamicTabFragment"
+        tools:layout="@layout/fragment_dynamic_tab"/>
 </navigation>

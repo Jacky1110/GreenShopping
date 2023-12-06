@@ -11,6 +11,8 @@ import com.jotangi.greenShop.model.LoginResponse
 import com.jotangi.greenShop.model.ModifyPersonDataResponse
 import com.jotangi.greenShop.model.PackageListResponse
 import com.jotangi.greenShop.model.PersonDataResponse
+import com.jotangi.greenShop.model.ProductListResponse
+import com.jotangi.greenShop.model.ProductTypeResponse
 import com.jotangi.greenShop.model.UpLoadImagResponse
 import com.jotangi.greenShop.utility.ApiUtility
 import com.jotangi.greenShop.utility.AppUtility
@@ -70,6 +72,22 @@ class MainViewModel : ViewModel() {
     }
 
     val packageListData: LiveData<List<PackageListResponse>> get() = _packageListData
+
+
+    // 商城商品類別
+    private val _productTypeData: MutableLiveData<List<ProductTypeResponse>> by lazy {
+        MutableLiveData<List<ProductTypeResponse>>()
+    }
+
+    val productTypeData: LiveData<List<ProductTypeResponse>> get() = _productTypeData
+
+
+    // 商城商品列表
+    private val _productListData: MutableLiveData<List<ProductListResponse>> by lazy {
+        MutableLiveData<List<ProductListResponse>>()
+    }
+
+    val productListData: LiveData<List<ProductListResponse>> get() = _productListData
 
 
     fun clearData() {
@@ -383,5 +401,88 @@ class MainViewModel : ViewModel() {
             }
         })
     }
+
+    // 商城商品類別
+    fun getProductTypeData(
+        context: Context,
+        memberId: String,
+        memberPassword: String
+    ) {
+        val call: Call<List<ProductTypeResponse>> = ApiUtility.service.apiGetProductType(
+            memberId,
+            memberPassword
+        )
+
+        call.enqueue(object : Callback<List<ProductTypeResponse>> {
+
+            override fun onResponse(
+                call: Call<List<ProductTypeResponse>>,
+                response: Response<List<ProductTypeResponse>>
+            ) {
+
+                val statusCode = response.code()
+                val url = response.raw().request.url.toString()
+                Log.d("目前 status code & URL 是", "\n" + statusCode + "\n" + url)
+
+                if (response.body() != null) {
+                    _productTypeData.value = response.body()
+                } else {
+                    AppUtility.showPopDialog(
+                        context,
+                        statusCode.toString(),
+                        null
+                    )
+                }
+            }
+
+            override fun onFailure(call: Call<List<ProductTypeResponse>>, t: Throwable) {
+                _productTypeData.value = null
+            }
+        })
+
+    }
+
+    // 商城商品列表
+    fun getProductListData(
+        context: Context,
+        memberId: String,
+        memberPassword: String,
+        productType: String
+    ) {
+        val call: Call<List<ProductListResponse>> = ApiUtility.service.apiGetProductList(
+            memberId,
+            memberPassword,
+            productType
+        )
+
+        call.enqueue(object : Callback<List<ProductListResponse>> {
+
+            override fun onResponse(
+                call: Call<List<ProductListResponse>>,
+                response: Response<List<ProductListResponse>>
+            ) {
+
+                val statusCode = response.code()
+                val url = response.raw().request.url.toString()
+                Log.d("目前 status code & URL 是", "\n" + statusCode + "\n" + url)
+
+                if (response.body() != null) {
+                    _productListData.value = response.body()
+                } else {
+                    AppUtility.showPopDialog(
+                        context,
+                        statusCode.toString(),
+                        null
+                    )
+                }
+            }
+
+            override fun onFailure(call: Call<List<ProductListResponse>>, t: Throwable) {
+                _productListData.value = null
+            }
+        })
+
+    }
+
 
 }

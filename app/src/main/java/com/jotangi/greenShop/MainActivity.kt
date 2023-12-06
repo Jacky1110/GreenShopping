@@ -150,6 +150,7 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.navigation_pointStore -> {
 
+                    navController.navigate(R.id.dynamicTabFragment)
                 }
 
                 R.id.navigation_business -> {

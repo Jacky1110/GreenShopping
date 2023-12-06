@@ -103,6 +103,25 @@ object AppUtility {
         )
     }
 
+    fun updateTypePosition(
+        context: Context,
+        typePosition: Int
+    ) {
+        getSpref(context).edit()
+            .putInt(
+                AppConfig.TYPE_POSITION,
+                typePosition
+            )
+            .apply()
+    }
+
+    fun getTypePosition(context: Context): Int {
+        return getSpref(context).getInt(
+            AppConfig.TYPE_POSITION,
+            0
+        )
+    }
+
     fun showPopDialog(
         context: Context,
         code: String?,

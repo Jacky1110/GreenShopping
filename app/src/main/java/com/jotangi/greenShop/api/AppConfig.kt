@@ -16,6 +16,7 @@ class AppConfig {
         const val REQUEST_CAMERA = 332
         const val REQUEST_EXTERNAL_STORAGE = 333
         const val REQUEST_SELECT_VIDEO = 334
+        const val TYPE_POSITION = "type_position"
 
 
         // 跳轉

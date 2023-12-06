@@ -5,6 +5,8 @@ import com.jotangi.greenShop.model.LoginResponse
 import com.jotangi.greenShop.model.ModifyPersonDataResponse
 import com.jotangi.greenShop.model.PackageListResponse
 import com.jotangi.greenShop.model.PersonDataResponse
+import com.jotangi.greenShop.model.ProductListResponse
+import com.jotangi.greenShop.model.ProductTypeResponse
 import com.jotangi.greenShop.model.UpLoadImagResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -119,4 +121,21 @@ interface ApiConfig {
         @Field("member_pwd") memberPwd: String,
     ): Call<List<PackageListResponse>>
 
+    // 商城商品類別
+    @POST("ticketec/api/product_type.php")
+    @FormUrlEncoded
+    fun apiGetProductType(
+        @Field("member_id") memberId: String,
+        @Field("member_pwd") memberPwd: String,
+    ): Call<List<ProductTypeResponse>>
+
+
+    // 商城商品列表
+    @POST("ticketec/api/product_list.php")
+    @FormUrlEncoded
+    fun apiGetProductList(
+        @Field("member_id") memberId: String,
+        @Field("member_pwd") memberPwd: String,
+        @Field("product_type") productType: String,
+    ): Call<List<ProductListResponse>>
 }

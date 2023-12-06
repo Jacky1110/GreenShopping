@@ -180,7 +180,8 @@ class HomeMainFragment : BaseFragment(), PackageListClickListener {
 
             vOldCar.setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW)
-                val url = Uri.parse("https://www.facebook.com/rilinkiscooter/shop/?referral_code=page_shop_tab&preview=1")
+                val url =
+                    Uri.parse("https://www.facebook.com/rilinkiscooter/shop/?referral_code=page_shop_tab&preview=1")
                 intent.data = url
                 startActivity(intent)
             }
