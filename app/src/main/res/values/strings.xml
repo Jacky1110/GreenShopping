@@ -29,6 +29,17 @@
     <string name="welcome_member">Hi~ %s</string>
     <string name="welcome">Hi~ 歡迎回來</string>
     <string name="email_customer">: @208pztjk</string>
+    <string name="rilink_fb">: Rilink i機車</string>
+    <string name="rilink_email">: erica@rilink.com.tw</string>
+    <string name="rilink_tel">: (05)-2284523(週一至週五 09：00~18：00)</string>
+
+
+    <string name="return_title">一.退貨款事宜</string>
+    <string name="return_content_title">1.如購買的商品為套票，不接受單退款套票中的某樣商品。\n2.如欲辦理退款，請提供以下資料給客服人員：會員手機號碼/姓名/在"我的票券"中，欲辦理退款的"商品名稱"與"訂單編號"。\n3.辦理退款的前提為，商品QR尚未被核銷，仍留存在票券的"可使用處"。\n4.購買商品時，若有使用點數折抵，辦理退款後，恕無法同步退還點數給您。\n5.可接受辦理退款的日期為"購買日期"後的7天內提出(不含假日)。</string>
+    <string name="qr_write_off_title">二.誤將QR核銷掉</string>
+    <string name="qr_write_off_content_title">1.請描述原因與提供以下資料給客服人員查詢(會員電話與"我的訂單"中的"訂單編號/日期/金額")，使人員重新派發商品給您。</string>
+    <string name="precautions_title">三.使用Rilink商城APP的注意事項</string>
+    <string name="precautions_content_title">1.於該平台購買的商品，不會寄出商品給顧客，須請您至該商品對應之門市核銷QR後，才能獲得此商品。\n2.Rilink i機車總共有兩種APP，分別為Rilink(機車租賃平台)與Rilink Shop(商城、預約維修平台..)，兩款APP的會員資料是相通的，點數也可以同步於兩平台中折抵使用。</string>
 
 
     <string name="hello_blank_fragment">Hello blank fragment</string>

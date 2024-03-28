@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_memberFragment_to_accountCustomerFragment"
             app:destination="@id/accountCustomerFragment" />
+        <action
+            android:id="@+id/action_memberFragment_to_accountQAFragment"
+            app:destination="@id/accountQAFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeMainFragment"
@@ -44,4 +47,9 @@
         android:name="com.jotangi.greenShop.shop.DynamicTabFragment"
         android:label="DynamicTabFragment"
         tools:layout="@layout/fragment_dynamic_tab"/>
+    <fragment
+        android:id="@+id/accountQAFragment"
+        android:name="com.jotangi.greenShop.member.AccountQAFragment"
+        android:label="fragment_account_q_a"
+        tools:layout="@layout/fragment_account_q_a" />
 </navigation>

@@ -1,13 +1,19 @@
 package com.jotangi.greenShop.shop
 
 import android.R
+import android.content.Context
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.DocumentsContract
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jotangi.greenShop.BaseFragment
@@ -20,6 +26,7 @@ import com.jotangi.greenShop.utility.AppUtility
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlin.math.log
 
 class DynamicTabFragment : BaseFragment(), ProductListClickListener {
 
@@ -30,6 +37,7 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener {
     private lateinit var fullCategoryData: MutableList<ProductTypeResponse>
 
     private var productType: String = ""
+    private val ticketId: String = "api06"
 
 
     private val typeData = mutableListOf<ProductType1VO>()
@@ -59,12 +67,6 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener {
         initAction()
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        binding.pb2.visibility = View.VISIBLE
-    }
-
     override fun onResume() {
         super.onResume()
 
@@ -76,6 +78,7 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener {
 
         mainViewModel.productTypeData.observe(viewLifecycleOwner) { result ->
 
+            binding.pb2.visibility = View.VISIBLE
 
             if (result != null) {
 
@@ -129,24 +132,31 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener {
 
             typeData.add(item)
 
-            Log.d(TAG, "updateProductType: ${item.productTypeName}")
-
         }
 
-        val spinnerOptions = typeData.map { it.productTypeName }.toMutableList()
-        spinnerOptions.add("套票")
+        val spinnerOptions = typeData.map { it.productTypeName }
+        val spinnerTitles = getPackageTitle(spinnerOptions)
+
 
         // 创建自定义适配器
         val adapter: ArrayAdapter<String> = ArrayAdapter(
             requireContext(),
             R.layout.simple_spinner_item,
-            spinnerOptions
+            spinnerTitles
         )
 
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
         binding.productTypeSpinner.adapter = adapter
 
-        Log.d(TAG, "spinnerOptions: $spinnerOptions")
+        Log.d(TAG, "spinnerOptions: $spinnerTitles")
+    }
+
+    private fun getPackageTitle(data: List<String>): MutableList<String> {
+        val packageTitles = data.toMutableList()
+
+        packageTitles.add("套票")
+
+        return packageTitles
     }
 
     private fun initData() {
@@ -161,6 +171,7 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener {
 
             productTypeData.await()
         }
+
     }
 
     private fun initView() {
@@ -205,13 +216,16 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener {
 
 
                         productType = typeData[position].productType
-
                         AppUtility.updateTypePosition(requireContext(), position)
+
+//                        if(){
+//
+//                        }
 
                         initProductList(productType)
 
-                        Log.d(TAG, "position: $position")
-                        Log.d(TAG, "id: $id")
+                        Log.d(TAG, "position: ${typeData.size}")
+                        Log.d(TAG, "id: ${typeData[position].productTypeName}")
                     }
 
 

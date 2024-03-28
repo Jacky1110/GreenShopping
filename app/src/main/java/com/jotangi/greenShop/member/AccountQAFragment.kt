@@ -8,21 +8,20 @@ import android.view.ViewGroup
 import com.jotangi.greenShop.BaseFragment
 import com.jotangi.greenShop.R
 import com.jotangi.greenShop.databinding.AppBarMainBinding
-import com.jotangi.greenShop.databinding.FragmentAccountCustomerBinding
+import com.jotangi.greenShop.databinding.FragmentAccountQABinding
 import com.jotangi.greenShop.databinding.FragmentMemberBinding
 
+class AccountQAFragment : BaseFragment() {
 
-class AccountCustomerFragment : BaseFragment() {
 
     override fun getToolBar(): AppBarMainBinding = binding.toolbarInclude
-    private lateinit var binding: FragmentAccountCustomerBinding
-
+    private lateinit var binding: FragmentAccountQABinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentAccountCustomerBinding.inflate(inflater, container, false)
+        binding = FragmentAccountQABinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -34,7 +33,7 @@ class AccountCustomerFragment : BaseFragment() {
 
     private fun init() {
 
-    }
 
+    }
 
 }

@@ -194,7 +194,10 @@ class MemberFragment : BaseFragment() {
             }
 
             itemQa.setOnClickListener {
-                
+
+                findNavController().navigate(
+                    R.id.action_memberFragment_to_accountQAFragment
+                )
             }
 
             itemCs.setOnClickListener {

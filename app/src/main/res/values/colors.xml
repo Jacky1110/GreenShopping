@@ -20,5 +20,6 @@
     <color name="gray_f0">#f0f0f0</color>
     <color name="c_aaaaaa_100">#aaaaaa</color>
     <color name="gray_20">#202020</color>
+    <color name="gray_60">#606060</color>
 
 </resources>
