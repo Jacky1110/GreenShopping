@@ -23,6 +23,7 @@ import com.jotangi.greenShop.model.ProductTypeResponse
 import com.jotangi.greenShop.utility.AppUtility
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class DynamicTabFragment : BaseFragment(), ProductListClickListener, PackageListClickListener {
@@ -98,8 +99,6 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener, PackageList
                 }
             }
         }
-
-
 
 
         mainViewModel.maintenanceListData.observe(viewLifecycleOwner) { result ->
@@ -237,15 +236,6 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener, PackageList
 
     private fun initData() {
         lifecycleScope.launch(Dispatchers.IO) {
-            val productTypeData = async {
-                mainViewModel.getProductTypeData(
-                    requireContext(),
-                    AppUtility.getLoginId(requireContext())!!,
-                    AppUtility.getLoginPassword(requireContext())!!
-                )
-            }
-
-            productTypeData.await()
 
             val productListData = async {
                 mainViewModel.getProductListData(
@@ -255,6 +245,19 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener, PackageList
                     AppConfig.PRODUCT_TYPE
                 )
             }
+
+            productListData.await()
+
+            val productTypeData = async {
+                delay(800)
+                mainViewModel.getProductTypeData(
+                    requireContext(),
+                    AppUtility.getLoginId(requireContext())!!,
+                    AppUtility.getLoginPassword(requireContext())!!
+                )
+            }
+
+            productTypeData.await()
 
 
             val packageListData = async {
@@ -267,7 +270,6 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener, PackageList
 
 
 
-            productListData.await()
             packageListData.await()
         }
 
