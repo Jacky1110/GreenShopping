@@ -90,6 +90,38 @@ class MainViewModel : ViewModel() {
     val productListData: LiveData<List<ProductListResponse>> get() = _productListData
 
 
+    // 維修保養列表
+    private val _maintenanceListData: MutableLiveData<List<ProductListResponse>> by lazy {
+        MutableLiveData<List<ProductListResponse>>()
+    }
+
+    val maintenanceListData: LiveData<List<ProductListResponse>> get() = _maintenanceListData
+
+
+    // i租車列表
+    private val _carRentalListData: MutableLiveData<List<ProductListResponse>> by lazy {
+        MutableLiveData<List<ProductListResponse>>()
+    }
+
+    val carRentalListData: LiveData<List<ProductListResponse>> get() = _carRentalListData
+
+
+    // 改裝精品配件列表
+    private val _accessoriesListData: MutableLiveData<List<ProductListResponse>> by lazy {
+        MutableLiveData<List<ProductListResponse>>()
+    }
+
+    val accessoriesListData: LiveData<List<ProductListResponse>> get() = _accessoriesListData
+
+
+    // i二手機車列表
+    private val _secondhandListData: MutableLiveData<List<ProductListResponse>> by lazy {
+        MutableLiveData<List<ProductListResponse>>()
+    }
+
+    val secondhandListData: LiveData<List<ProductListResponse>> get() = _secondhandListData
+
+
     fun clearData() {
         _loginData.value = null
         _personData.value = null
@@ -484,5 +516,50 @@ class MainViewModel : ViewModel() {
 
     }
 
+    fun getMaintenanceList() {
+        if (_productListData.value != null) {
+            _maintenanceListData.value =
+                _productListData.value?.filter { it.productType == "maintenance" }
+            Log.d("TAG", "getMaintenanceList: ${_maintenanceListData.value}")
+        } else {
+            _maintenanceListData.value = null
+        }
+    }
+
+
+    fun getCarRentalList() {
+        if (_productListData.value != null) {
+            _carRentalListData.value = _productListData.value?.filter { it.productType == "Rent" }
+            Log.d("TAG", "getCarRentalList: ${_carRentalListData.value}")
+        } else {
+            _carRentalListData.value = null
+        }
+    }
+
+    fun getAccessoriesList() {
+        if (_productListData.value != null) {
+            _accessoriesListData.value =
+                _productListData.value?.filter { it.productType == "SC001" }
+            Log.d("TAG", "getAccessoriesList: ${_accessoriesListData.value}")
+        } else {
+            _accessoriesListData.value = null
+        }
+    }
+
+    fun getSecondhandList() {
+        if (_productListData.value != null) {
+            _secondhandListData.value =
+                _productListData.value?.filter { it.productType == "Used Car" }
+            Log.d("TAG", "getSecondhandList: ${_secondhandListData.value}")
+        } else {
+            _secondhandListData.value = null
+        }
+    }
+
+    fun getPackageList() {
+        if (_packageListData.value != null) {
+            _packageListData.value
+        }
+    }
 
 }

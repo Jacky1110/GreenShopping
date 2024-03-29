@@ -61,10 +61,21 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rT"
+        android:id="@+id/rT_product"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/con" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rT_package"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/white"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

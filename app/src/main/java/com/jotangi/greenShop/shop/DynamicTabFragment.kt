@@ -1,24 +1,22 @@
 package com.jotangi.greenShop.shop
 
 import android.R
-import android.content.Context
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.DocumentsContract
-import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jotangi.greenShop.BaseFragment
+import com.jotangi.greenShop.api.AppConfig
 import com.jotangi.greenShop.databinding.AppBarMainBinding
 import com.jotangi.greenShop.databinding.FragmentDynamicTabBinding
+import com.jotangi.greenShop.home.PackageListAdapter
+import com.jotangi.greenShop.home.PackageListClickListener
+import com.jotangi.greenShop.model.PackageListResponse
 import com.jotangi.greenShop.model.ProductListResponse
 import com.jotangi.greenShop.model.ProductType1VO
 import com.jotangi.greenShop.model.ProductTypeResponse
@@ -26,9 +24,8 @@ import com.jotangi.greenShop.utility.AppUtility
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlin.math.log
 
-class DynamicTabFragment : BaseFragment(), ProductListClickListener {
+class DynamicTabFragment : BaseFragment(), ProductListClickListener, PackageListClickListener {
 
     override fun getToolBar(): AppBarMainBinding = binding.toolbarInclude
     private lateinit var binding: FragmentDynamicTabBinding
@@ -37,13 +34,14 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener {
     private lateinit var fullCategoryData: MutableList<ProductTypeResponse>
 
     private var productType: String = ""
-    private val ticketId: String = "api06"
 
 
     private val typeData = mutableListOf<ProductType1VO>()
     private val listData = mutableListOf<ProductListResponse>()
+    private val packageListData = mutableListOf<PackageListResponse>()
 
     private lateinit var productListAdapter: ProductListAdapter
+    private lateinit var packageListAdapter: PackageListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -101,22 +99,98 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener {
             }
         }
 
-        mainViewModel.productListData.observe(viewLifecycleOwner) { result ->
-            if (result != null) {
 
+
+
+        mainViewModel.maintenanceListData.observe(viewLifecycleOwner) { result ->
+            if (result != null) {
                 binding.pb2.visibility = View.VISIBLE
+
+                listData.clear()
 
                 updateProductList(result)
 
                 binding.pb2.visibility = View.GONE
+
+            }
+
+        }
+
+        mainViewModel.carRentalListData.observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                binding.pb2.visibility = View.VISIBLE
+
+                listData.clear()
+
+                updateProductList(result)
+
+                binding.pb2.visibility = View.GONE
+
+            }
+
+        }
+
+        mainViewModel.accessoriesListData.observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                binding.pb2.visibility = View.VISIBLE
+
+                listData.clear()
+
+                updateProductList(result)
+
+                binding.pb2.visibility = View.GONE
+
+            }
+
+        }
+
+        mainViewModel.secondhandListData.observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                binding.pb2.visibility = View.VISIBLE
+
+                listData.clear()
+
+                updateProductList(result)
+
+                binding.pb2.visibility = View.GONE
+
+            }
+
+        }
+
+        mainViewModel.packageListData.observe(viewLifecycleOwner) { result ->
+            if (result != null) {
+                binding.pb2.visibility = View.VISIBLE
+
+                listData.clear()
+
+                updatePackageList(result)
+
+                binding.pb2.visibility = View.GONE
+
             }
         }
+
 
     }
 
     private fun updateProductList(result: List<ProductListResponse>) {
 
-        productListAdapter.updateDataSource(result)
+        binding.apply {
+
+
+            productListAdapter.updateDataSource(result)
+        }
+    }
+
+    private fun updatePackageList(result: List<PackageListResponse>) {
+
+        binding.apply {
+
+            packageListAdapter.updateDataSource(result)
+
+        }
+
     }
 
     private fun updateProductType() {
@@ -134,29 +208,31 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener {
 
         }
 
+        val newItem = ProductType1VO(
+            fullCategoryData.size.toString(), // 新项的索引为列表大小
+            AppConfig.TICKET_ID, // 新的 product_type
+            AppConfig.TICKET_NAME, // 新的 producttype_name
+            isSelected = false // 默认不选中
+        )
+
+        typeData.add(newItem)
+
+        Log.d(TAG, "typeData: $typeData")
+
         val spinnerOptions = typeData.map { it.productTypeName }
-        val spinnerTitles = getPackageTitle(spinnerOptions)
 
 
         // 创建自定义适配器
         val adapter: ArrayAdapter<String> = ArrayAdapter(
             requireContext(),
             R.layout.simple_spinner_item,
-            spinnerTitles
+            spinnerOptions
         )
 
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
         binding.productTypeSpinner.adapter = adapter
 
-        Log.d(TAG, "spinnerOptions: $spinnerTitles")
-    }
-
-    private fun getPackageTitle(data: List<String>): MutableList<String> {
-        val packageTitles = data.toMutableList()
-
-        packageTitles.add("套票")
-
-        return packageTitles
+        Log.d(TAG, "spinnerOptions: $spinnerOptions")
     }
 
     private fun initData() {
@@ -170,6 +246,29 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener {
             }
 
             productTypeData.await()
+
+            val productListData = async {
+                mainViewModel.getProductListData(
+                    requireContext(),
+                    AppUtility.getLoginId(requireContext())!!,
+                    AppUtility.getLoginPassword(requireContext())!!,
+                    AppConfig.PRODUCT_TYPE
+                )
+            }
+
+
+            val packageListData = async {
+                mainViewModel.getPackageListData(
+                    requireContext(),
+                    AppUtility.getLoginId(requireContext())!!,
+                    AppUtility.getLoginPassword(requireContext())!!
+                )
+            }
+
+
+
+            productListData.await()
+            packageListData.await()
         }
 
     }
@@ -177,12 +276,13 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener {
     private fun initView() {
 
         initRecyclerView()
+        initPackageListRecyclerView()
     }
 
 
     private fun initRecyclerView() {
 
-        binding.rT.apply {
+        binding.rTProduct.apply {
 
             layoutManager = GridLayoutManager(
                 requireContext(),
@@ -194,6 +294,22 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener {
                 this@DynamicTabFragment
             )
             this.adapter = productListAdapter
+        }
+    }
+
+    private fun initPackageListRecyclerView() {
+
+        binding.rTPackage.apply {
+            layoutManager = GridLayoutManager(
+                requireContext(),
+                2
+            )
+            packageListAdapter = PackageListAdapter(
+                packageListData,
+                requireContext(),
+                this@DynamicTabFragment
+            )
+            this.adapter = packageListAdapter
         }
     }
 
@@ -215,17 +331,50 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener {
                     ) {
 
 
-                        productType = typeData[position].productType
-                        AppUtility.updateTypePosition(requireContext(), position)
+                        if (position >= 0 && position < typeData.size) {
 
-//                        if(){
-//
-//                        }
+                            productType = typeData[position].productType
+                            AppUtility.updateTypePosition(requireContext(), position)
 
-                        initProductList(productType)
+                            when (productType) {
 
-                        Log.d(TAG, "position: ${typeData.size}")
-                        Log.d(TAG, "id: ${typeData[position].productTypeName}")
+                                "maintenance" -> {
+                                    mainViewModel.getMaintenanceList()
+                                    initRecyclerViewVisibility(productType)
+                                }
+
+                                "Rent" -> {
+                                    mainViewModel.getCarRentalList()
+                                    initRecyclerViewVisibility(productType)
+
+                                }
+
+                                "SC001" -> {
+                                    mainViewModel.getAccessoriesList()
+                                    initRecyclerViewVisibility(productType)
+
+                                }
+
+                                "Used Car" -> {
+
+                                    mainViewModel.getSecondhandList()
+                                    initRecyclerViewVisibility(productType)
+
+                                }
+
+                                "api06" -> {
+
+                                    mainViewModel.getPackageList()
+                                    initRecyclerViewVisibility(productType)
+
+                                }
+                            }
+
+                        }
+
+
+                        Log.d(TAG, "position.size: ${typeData.size}")
+                        Log.d(TAG, "productTypeName: ${typeData[position].productType}")
                     }
 
 
@@ -237,24 +386,28 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener {
         }
     }
 
+    private fun initRecyclerViewVisibility(productType: String) {
+        binding.apply {
 
-    private fun initProductList(productType: String) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val productListData = async {
-                mainViewModel.getProductListData(
-                    requireContext(),
-                    AppUtility.getLoginId(requireContext())!!,
-                    AppUtility.getLoginPassword(requireContext())!!,
-                    productType
-                )
+            if (productType != AppConfig.TICKET_ID) {
+
+                rTPackage.visibility = View.GONE
+                rTProduct.visibility = View.VISIBLE
+
+            } else {
+
+                rTPackage.visibility = View.VISIBLE
+                rTProduct.visibility = View.GONE
             }
-
-            productListData.await()
         }
     }
 
     override fun onProductListItemClick(vo: ProductListResponse) {
 
+
+    }
+
+    override fun onPackageListItemClick(vo: PackageListResponse) {
 
     }
 

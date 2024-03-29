@@ -33,7 +33,7 @@ class HomeMainFragment : BaseFragment(), PackageListClickListener {
     private lateinit var binding: FragmentHomeMainBinding
 
     private var data = mutableListOf<PackageListResponse>()
-    private lateinit var productListAdapter: PackageListAdapter
+    private lateinit var packageListAdapter: PackageListAdapter
 
 
     override fun onCreateView(
@@ -86,7 +86,7 @@ class HomeMainFragment : BaseFragment(), PackageListClickListener {
 
     private fun updateListView(result: List<PackageListResponse>) {
 
-        productListAdapter.updateDataSource(result)
+        packageListAdapter.updateDataSource(result)
 
     }
 
@@ -165,12 +165,12 @@ class HomeMainFragment : BaseFragment(), PackageListClickListener {
                 requireContext(),
                 2
             )
-            productListAdapter = PackageListAdapter(
+            packageListAdapter = PackageListAdapter(
                 data,
                 requireContext(),
                 this@HomeMainFragment
             )
-            this.adapter = productListAdapter
+            this.adapter = packageListAdapter
         }
     }
 

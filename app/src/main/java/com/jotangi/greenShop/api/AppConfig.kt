@@ -17,6 +17,9 @@ class AppConfig {
         const val REQUEST_EXTERNAL_STORAGE = 333
         const val REQUEST_SELECT_VIDEO = 334
         const val TYPE_POSITION = "type_position"
+        const val PRODUCT_TYPE = ""
+        const val TICKET_ID = "api06"
+        const val TICKET_NAME = "套票"
 
 
         // 跳轉
