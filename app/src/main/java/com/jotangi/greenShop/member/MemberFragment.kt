@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.view.forEach
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -159,7 +160,7 @@ class MemberFragment : BaseFragment() {
 
     private fun initData() {
 
-        if (AppUtility.getLoginId(requireContext()).toString().isNotEmpty()){
+        if (AppUtility.getLoginId(requireContext()).toString().isNotEmpty()) {
 
             binding.progressBar.visibility = View.VISIBLE
 
@@ -239,6 +240,13 @@ class MemberFragment : BaseFragment() {
                 tvUserName.text = welcome
                 tvRPoint.text = "0"
             }
+
+            val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.nav_view)
+            bottomNavigationView?.menu?.forEach { menuItem ->
+                menuItem.isEnabled =
+                    AppUtility.getLoginId(requireContext()).toString().isNotEmpty()
+            }
+
         }
     }
 

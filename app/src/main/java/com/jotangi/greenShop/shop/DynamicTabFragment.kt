@@ -66,6 +66,11 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener, PackageList
         initAction()
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        binding.pb2.visibility = View.VISIBLE
+    }
     override fun onResume() {
         super.onResume()
 
@@ -77,7 +82,6 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener, PackageList
 
         mainViewModel.productTypeData.observe(viewLifecycleOwner) { result ->
 
-            binding.pb2.visibility = View.VISIBLE
 
             if (result != null) {
 
@@ -103,7 +107,7 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener, PackageList
 
         mainViewModel.maintenanceListData.observe(viewLifecycleOwner) { result ->
             if (result != null) {
-                binding.pb2.visibility = View.VISIBLE
+
 
                 listData.clear()
 
@@ -117,13 +121,11 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener, PackageList
 
         mainViewModel.carRentalListData.observe(viewLifecycleOwner) { result ->
             if (result != null) {
-                binding.pb2.visibility = View.VISIBLE
 
                 listData.clear()
 
                 updateProductList(result)
 
-                binding.pb2.visibility = View.GONE
 
             }
 
@@ -131,13 +133,11 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener, PackageList
 
         mainViewModel.accessoriesListData.observe(viewLifecycleOwner) { result ->
             if (result != null) {
-                binding.pb2.visibility = View.VISIBLE
 
                 listData.clear()
 
                 updateProductList(result)
 
-                binding.pb2.visibility = View.GONE
 
             }
 
@@ -145,13 +145,11 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener, PackageList
 
         mainViewModel.secondhandListData.observe(viewLifecycleOwner) { result ->
             if (result != null) {
-                binding.pb2.visibility = View.VISIBLE
 
                 listData.clear()
 
                 updateProductList(result)
 
-                binding.pb2.visibility = View.GONE
 
             }
 
@@ -159,13 +157,11 @@ class DynamicTabFragment : BaseFragment(), ProductListClickListener, PackageList
 
         mainViewModel.packageListData.observe(viewLifecycleOwner) { result ->
             if (result != null) {
-                binding.pb2.visibility = View.VISIBLE
 
                 listData.clear()
 
                 updatePackageList(result)
 
-                binding.pb2.visibility = View.GONE
 
             }
         }

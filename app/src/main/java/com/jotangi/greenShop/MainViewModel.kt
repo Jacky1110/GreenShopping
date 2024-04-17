@@ -13,6 +13,8 @@ import com.jotangi.greenShop.model.PackageListResponse
 import com.jotangi.greenShop.model.PersonDataResponse
 import com.jotangi.greenShop.model.ProductListResponse
 import com.jotangi.greenShop.model.ProductTypeResponse
+import com.jotangi.greenShop.model.StoreListResponse
+import com.jotangi.greenShop.model.StoreTypeResponse
 import com.jotangi.greenShop.model.UpLoadImagResponse
 import com.jotangi.greenShop.utility.ApiUtility
 import com.jotangi.greenShop.utility.AppUtility
@@ -120,6 +122,44 @@ class MainViewModel : ViewModel() {
     }
 
     val secondhandListData: LiveData<List<ProductListResponse>> get() = _secondhandListData
+
+
+    // 16.商店類別
+    private val _storeTypeListData: MutableLiveData<List<StoreTypeResponse>> by lazy {
+        MutableLiveData<List<StoreTypeResponse>>()
+    }
+
+    val storeTypeListData: LiveData<List<StoreTypeResponse>> get() = _storeTypeListData
+
+
+    // 17.商店列表
+    private val _storeListData: MutableLiveData<List<StoreListResponse>> by lazy {
+        MutableLiveData<List<StoreListResponse>>()
+    }
+
+    val storeListData: LiveData<List<StoreListResponse>> get() = _storeListData
+
+    // 購車維修保養
+    private val _storeMaintenanceListData: MutableLiveData<List<StoreListResponse>> by lazy {
+        MutableLiveData<List<StoreListResponse>>()
+    }
+
+    val storeMaintenanceListData: LiveData<List<StoreListResponse>> get() = _storeMaintenanceListData
+
+
+    // 租車店
+    private val _storeCarRentalListData: MutableLiveData<List<StoreListResponse>> by lazy {
+        MutableLiveData<List<StoreListResponse>>()
+    }
+
+    val storeCarRentalListData: LiveData<List<StoreListResponse>> get() = _storeCarRentalListData
+
+    //異業合作
+    private val _storeMiscellaneousListData: MutableLiveData<List<StoreListResponse>> by lazy {
+        MutableLiveData<List<StoreListResponse>>()
+    }
+
+    val storeMiscellaneousListData: LiveData<List<StoreListResponse>> get() = _storeMiscellaneousListData
 
 
     fun clearData() {
@@ -562,4 +602,95 @@ class MainViewModel : ViewModel() {
         }
     }
 
+
+    //16.商店類別
+    fun getStoreTypeData(
+        context: Context,
+        memberId: String,
+        memberPassword: String
+    ) {
+        val call: Call<List<StoreTypeResponse>> = ApiUtility.service.apiGetStoreType(
+            memberId,
+            memberPassword
+        )
+
+        call.enqueue(object : Callback<List<StoreTypeResponse>> {
+
+            override fun onResponse(
+                call: Call<List<StoreTypeResponse>>,
+                response: Response<List<StoreTypeResponse>>
+            ) {
+
+                val statusCode = response.code()
+                val url = response.raw().request.url.toString()
+                Log.d("目前 status code & URL 是", "\n" + statusCode + "\n" + url)
+
+                if (response.body() != null) {
+                    _storeTypeListData.value = response.body()
+                } else {
+                    AppUtility.showPopDialog(
+                        context,
+                        statusCode.toString(),
+                        null
+                    )
+                }
+            }
+
+            override fun onFailure(call: Call<List<StoreTypeResponse>>, t: Throwable) {
+                _storeTypeListData.value = null
+            }
+        })
+
+    }
+
+    // 17.商店列表
+    fun getStoreListData(
+        context: Context,
+        memberId: String,
+        memberPassword: String,
+        storeType: String
+    ) {
+        val call: Call<List<StoreListResponse>> = ApiUtility.service.apiGetStoreList(
+            memberId,
+            memberPassword,
+            storeType
+        )
+
+        call.enqueue(object : Callback<List<StoreListResponse>> {
+
+            override fun onResponse(
+                call: Call<List<StoreListResponse>>,
+                response: Response<List<StoreListResponse>>
+            ) {
+
+                val statusCode = response.code()
+                val url = response.raw().request.url.toString()
+                Log.d("目前 status code & URL 是", "\n" + statusCode + "\n" + url)
+
+                if (response.body() != null) {
+                    _storeListData.value = response.body()
+                } else {
+                    AppUtility.showPopDialog(
+                        context,
+                        statusCode.toString(),
+                        null
+                    )
+                }
+            }
+
+            override fun onFailure(call: Call<List<StoreListResponse>>, t: Throwable) {
+                _storeListData.value = null
+            }
+        })
+    }
+
+    fun getStoreMaintenanceList() {
+        if (_storeListData.value != null) {
+            _storeMaintenanceListData.value =
+                _storeListData.value?.filter { it.storeType == "1" }
+            Log.d("TAG", "getMaintenanceList: ${_storeMaintenanceListData.value}")
+        } else {
+            _storeMaintenanceListData.value = null
+        }
+    }
 }

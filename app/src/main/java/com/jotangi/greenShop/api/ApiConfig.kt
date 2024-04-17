@@ -7,6 +7,8 @@ import com.jotangi.greenShop.model.PackageListResponse
 import com.jotangi.greenShop.model.PersonDataResponse
 import com.jotangi.greenShop.model.ProductListResponse
 import com.jotangi.greenShop.model.ProductTypeResponse
+import com.jotangi.greenShop.model.StoreListResponse
+import com.jotangi.greenShop.model.StoreTypeResponse
 import com.jotangi.greenShop.model.UpLoadImagResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -138,4 +140,25 @@ interface ApiConfig {
         @Field("member_pwd") memberPwd: String,
         @Field("product_type") productType: String,
     ): Call<List<ProductListResponse>>
+
+
+    // 16.商店類別
+    @POST("ticketec/api/store_type.php")
+    @FormUrlEncoded
+    fun apiGetStoreType(
+        @Field("member_id") memberId: String,
+        @Field("member_pwd") memberPwd: String
+    ): Call<List<StoreTypeResponse>>
+
+
+    // 17.商店列表
+    @POST("ticketec/api/store_list.php")
+    @FormUrlEncoded
+    fun apiGetStoreList(
+        @Field("member_id") memberId: String,
+        @Field("member_pwd") memberPwd: String,
+        @Field("store_type") storeType: String,
+    ): Call<List<StoreListResponse>>
+
+
 }

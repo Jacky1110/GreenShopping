@@ -3,16 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/memberFragment">
+    app:startDestination="@id/homeMainFragment">
 
     <fragment
         android:id="@+id/memberFragment"
         android:name="com.jotangi.greenShop.member.MemberFragment"
         android:label="fragment_member"
         tools:layout="@layout/fragment_member" >
-        <action
-            android:id="@+id/action_memberFragment_to_homeMainFragment"
-            app:destination="@id/homeMainFragment" />
         <action
             android:id="@+id/action_memberFragment_to_memberLoginFragment"
             app:destination="@id/memberLoginFragment" />
@@ -31,6 +28,9 @@
         <action
             android:id="@+id/action_homeMainFragment_to_dynamicTabFragment"
             app:destination="@id/dynamicTabFragment" />
+        <action
+            android:id="@+id/action_homeMainFragment_to_memberFragment"
+            app:destination="@id/memberFragment" />
     </fragment>
     <fragment
         android:id="@+id/memberLoginFragment"

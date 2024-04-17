@@ -5,16 +5,18 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.provider.Settings
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.forEach
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jotangi.greenShop.databinding.ActivityMainBinding
+import com.jotangi.greenShop.utility.AppUtility
 
 class MainActivity : AppCompatActivity() {
 
@@ -52,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initView()
+        initData()
         checkPermission()
     }
 
@@ -166,5 +169,13 @@ class MainActivity : AppCompatActivity() {
 
             return@setOnItemSelectedListener true
         }
+    }
+
+    private fun initData() {
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
+        bottomNavigationView.menu.forEach { menuItem ->
+            menuItem.isEnabled = AppUtility.getLoginId(this).toString().isNotEmpty()
+        }
+
     }
 }

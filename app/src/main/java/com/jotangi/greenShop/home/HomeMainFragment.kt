@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.jotangi.greenShop.BaseFragment
+import com.jotangi.greenShop.R
 import com.jotangi.greenShop.api.ApiConfig
 import com.jotangi.greenShop.databinding.AppBarMainBinding
 import com.jotangi.greenShop.databinding.FragmentHomeMainBinding
@@ -184,6 +186,13 @@ class HomeMainFragment : BaseFragment(), PackageListClickListener {
                     Uri.parse("https://www.facebook.com/rilinkiscooter/shop/?referral_code=page_shop_tab&preview=1")
                 intent.data = url
                 startActivity(intent)
+            }
+
+            if (AppUtility.getLoginId(requireContext()).toString().isEmpty()) {
+
+                findNavController().navigate(
+                    R.id.action_homeMainFragment_to_memberFragment
+                )
             }
 
 
